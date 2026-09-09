@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Funded Enrolment Growth Model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#141a24;
+    --muted:#616b79;
+    --line:#e6e9ef;
+    --bg:#ffffff;
+    --panel:#f6f8fb;
+    --accent:#1f5fd6;
+    --accent-soft:#e9f1fe;
+    --good:#0f6a49;
+    --good-soft:#e7f4ee;
+    --gold:#8a6d1f;
+    --gold-soft:#f7f0dd;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    color:var(--ink);background:var(--bg);line-height:1.5;-webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:900px;margin:0 auto;padding:52px 26px 64px}
+
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+  h1{font-size:30px;line-height:1.2;font-weight:800;letter-spacing:-.02em;margin:0 0 8px}
+  .sub{font-size:15px;color:var(--muted);margin:0}
+
+  .anchor{
+    margin:34px 0 8px;background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:26px 28px;display:flex;align-items:center;gap:28px;flex-wrap:wrap
+  }
+  .anchor .big{font-size:52px;font-weight:800;letter-spacing:-.03em;line-height:1;white-space:nowrap}
+  .anchor .big span{font-size:20px;font-weight:600;color:var(--muted);margin-left:6px}
+  .anchor .side{flex:1;min-width:240px}
+  .anchor .side .lbl{font-size:13.5px;font-weight:600;color:var(--ink);margin:0 0 8px}
+  .anchor .tags{display:flex;gap:8px;flex-wrap:wrap}
+  .tag{font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:var(--muted)}
+
+  .logic{font-size:15.5px;font-weight:500;color:var(--ink);margin:20px 2px 0;padding-left:14px;border-left:3px solid var(--accent)}
+
+  .block{margin-top:40px}
+  .block > .h{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
+
+  /* flow */
+  .flow{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:4px}
+  .node{min-width:0;flex:1;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 14px;text-align:center}
+  .node.end{background:var(--gold-soft);border-color:#ecdfb8}
+  .node .t{font-size:14px;font-weight:600;margin:0 0 4px}
+  .node .c{font-size:12px;color:var(--muted);margin:0}
+  .node.end .t{color:var(--gold)}
+  .arrow{display:flex;align-items:center;justify-content:center;color:#c1c8d4;font-weight:700;padding:0 8px;flex:0 0 auto}
+
+  /* method */
+  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .tile{border:1px solid var(--line);border-radius:12px;padding:18px 18px;background:#fff}
+  .tile .k{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+  .tile .d{font-size:14px;font-weight:500;color:var(--ink);margin:0}
+
+  /* steps */
+  .steps{display:grid;gap:10px}
+  .srow{display:flex;align-items:center;gap:14px;border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:#fff}
+  .srow .n{flex:0 0 auto;width:26px;height:26px;border-radius:7px;background:var(--accent-soft);color:var(--accent);
+    font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center}
+  .srow .x{font-size:14.5px;font-weight:500}
+
+  .metrics{display:flex;flex-wrap:wrap;gap:9px}
+  .metric{font-size:13px;background:var(--good-soft);color:var(--good);border:1px solid #cfe6da;border-radius:999px;padding:7px 13px;font-weight:500}
+
+  .foot{margin-top:46px;padding-top:18px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+
+  @media (max-width:720px){
+    .wrap{padding:38px 18px 52px}
+    h1{font-size:25px}
+    .anchor .big{font-size:44px}
+    .tiles{grid-template-columns:1fr}
+    .flow{flex-direction:column}
+    .arrow{transform:rotate(90deg);padding:6px 0}
+    .node{min-width:100%}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Funded Enrolment Growth Model</p>
+  <h1>Paid search built for funded enrolments</h1>
+  <p class="sub">Level 4 AI and Automation Practitioner Apprenticeship, ST1512. England based employers.</p>
+
+  <div class="anchor">
+    <div class="big">£18,000<span>per enrolment</span></div>
+    <div class="side">
+      <p class="lbl">Funding value of one enrolment</p>
+      <div class="tags">
+        <span class="tag">Levy employers: 100 percent funded</span>
+        <span class="tag">Non-levy: 95 percent funded, 5 percent employer</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="logic">One enrolment is worth up to £18,000 in funding. So the target is eligible enrolments, not cheap clicks. That single number sets what a lead is worth and how much can be spent to win one.</p>
+
+  <div class="block">
+    <p class="h">The path we optimise for</p>
+    <div class="flow">
+      <div class="node"><p class="t">Search intent</p><p class="c">High intent queries</p></div>
+      <div class="arrow">&rsaquo;</div>
+      <div class="node"><p class="t">Eligibility check</p><p class="c">England, employed, funding</p></div>
+      <div class="arrow">&rsaquo;</div>
+      <div class="node"><p class="t">Eligible lead</p><p class="c">Qualified, not raw</p></div>
+      <div class="arrow">&rsaquo;</div>
+      <div class="node"><p class="t">Consultation</p><p class="c">Booked call</p></div>
+      <div class="arrow">&rsaquo;</div>
+      <div class="node end"><p class="t">Enrolment</p><p class="c">Funded place</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <p class="h">How the account is run</p>
+    <div class="tiles">
+      <div class="tile"><p class="k">Qualify</p><p class="d">Screen for eligibility before the spend, so unqualified interest is filtered early.</p></div>
+      <div class="tile"><p class="k">Signal</p><p class="d">Feed eligible leads and enrolments back to Smart Bidding, so the AI targets the right people.</p></div>
+      <div class="tile"><p class="k">Measure</p><p class="d">Judge every pound on cost per enrolment against funded value.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <p class="h">Where I would start</p>
+    <div class="steps">
+      <div class="srow"><span class="n">1</span><span class="x">Get measurement and the eligible lead signal right</span></div>
+      <div class="srow"><span class="n">2</span><span class="x">One tracked path, one qualifying enquiry step</span></div>
+      <div class="srow"><span class="n">3</span><span class="x">Scale only what returns eligible enrolments</span></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <p class="h">How success is measured</p>
+    <div class="metrics">
+      <span class="metric">Cost per eligible lead</span>
+      <span class="metric">Eligibility to enrolment rate</span>
+      <span class="metric">Cost per enrolment</span>
+      <span class="metric">Return on ad spend vs funded value</span>
+    </div>
+  </div>
+
+  <div class="foot">Level 4 AI and Automation Practitioner Apprenticeship, ST1512.</div>
+
+</div>
+</body>
+</html>
